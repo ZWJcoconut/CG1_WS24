@@ -30,6 +30,7 @@ public:
 
   // Primitive functions
   bool intersect(Ray &ray) const override;
+  bool intersectArea(Ray &ray) const;
 
   // Bounding box
   float minimumBounds(int dimension) const override;

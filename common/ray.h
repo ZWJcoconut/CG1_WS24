@@ -24,10 +24,13 @@ struct Ray {
 
   // Constructor
   Ray(Vector3d const &origin = Vector3d(0, 0, 0), Vector3d const &direction = Vector3d(0, 0, 1)) : origin(origin), direction(normalized(direction)) {
+    ++rayCount;
   }
 
   inline int getRemainingBounces() const { return remainingBounces; }
 
+  static inline void resetRayCount() { rayCount = 0; }
+  static inline int getRayCount() { return rayCount; }
 
 private:
 #ifndef ICG_RAY_BOUNCES
@@ -36,6 +39,7 @@ private:
   int remainingBounces = ICG_RAY_BOUNCES;
 #endif
 
+  static int rayCount;
 };
 
 #endif

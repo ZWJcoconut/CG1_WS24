@@ -13,18 +13,18 @@ public:
   // Set
   void setPosition(Vector3d const &position) { this->position = position; }
   void setForwardDirection(Vector3d const &forwardDirection) {
-    // IMPLEMENT ME
     // Set up a left-handed coordinate system,
     // in which the camera looks along the positive z-Axis
+    std::tie(this->forwardDirection, this->upDirection, this->rightDirection) = orthoNormalized(forwardDirection, this->upDirection, crossProduct(this->upDirection, forwardDirection));
   }
   void setUpDirection(Vector3d const &upDirection) {
-    // IMPLEMENT ME
     // Set up a left-handed coordinate system,
     // in which the camera looks along the positive z-Axis
+    std::tie(this->forwardDirection, this->upDirection, this->rightDirection) = orthoNormalized(this->forwardDirection, upDirection, crossProduct(upDirection, this->forwardDirection));
   }
   void setFovAngle(float fovAngle) {
-    // Calculate the focus, i.e. the distance of an image plane of horizontal extent [-1, 1] and horizontal field
-    // of view angle fovAngle
+    // Calculate the focus
+    this->focus = 1.0f / std::tan((fovAngle * PI / 180) / 2.0f);
   }
 
   // Camera functions

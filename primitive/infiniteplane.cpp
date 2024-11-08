@@ -11,21 +11,30 @@ InfinitePlane::InfinitePlane(Vector3d const &origin, Vector3d const &normal, std
 // Primitive functions /////////////////////////////////////////////////////////
 
 bool InfinitePlane::intersect(Ray &ray) const {
-  // IMPLEMENT ME!
+  float const cosine = dotProduct(ray.direction, this->normal);
 
   // Make sure the ray is not coming from the other side (backface culling).
   // Note: We only use backface culling for InfinitePlanes, because we have
   // some special features planned that rely on backfaces for other primitives.
+  if (cosine > 0)
+    return false;
 
-  // Determine whether the ray intersects the plane
+  // Determine the distance at which the ray intersects the plane
+  float const t = dotProduct(this->origin - ray.origin, this->normal) / cosine;
 
   // Test whether this is the foremost primitive in front of the camera
+  if (t < EPSILON || ray.length < t)
+    return false;
 
-  // (Optional for now) Set the normal
+  // Set the normal
+  // IMPLEMENT ME
 
   // Set the new length and the current primitive
+  ray.length = t;
+  ray.primitive = this;
 
-  return false;
+  // True, because the primitive was hit
+  return true;
 }
 
 // Bounding box ////////////////////////////////////////////////////////////////

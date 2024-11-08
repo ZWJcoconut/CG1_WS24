@@ -18,21 +18,99 @@ Triangle::Triangle(Vector3d const &a, Vector3d const &b, Vector3d const &c, Vect
 
 // Primitive functions /////////////////////////////////////////////////////////
 
+bool Triangle::intersectArea(Ray &ray) const {
+  // alternative triangle test
+  // "signed" triangle area with respect to triangle normal
+  auto triangleArea = [](Vector3d const &v0, Vector3d const &v1, Vector3d const &v2, Vector3d const &normal = Vector3d(0, 0, 0)) {
+    if (length(normal) < EPSILON) {
+      return length(crossProduct(v2 - v0, v1 - v0)) / 2.0f;
+    } else {
+      Vector3d const cp = crossProduct(v2 - v0, v1 - v0);
+      return dotProduct(cp, normal) > 0.0f ? length(cp) / 2.0f : -length(cp) / 2.0f;
+    }
+  };
 
-bool Triangle::intersect(Ray &ray) const {
-  // IMPLEMENT ME!
+  // begin ray-plane intersection ----------------------------
+  Vector3d normal = normalized(crossProduct(vertex[2] - vertex[0], vertex[1] - vertex[0]));
 
-  // Determine whether the ray intersects the triangle
+  float const cosine = dotProduct(ray.direction, normal);
 
-  // Test whether this is the foremost primitive in front of the camera
+  if (abs(cosine) < EPSILON)
+    return false;
 
-  // (Optional for now) Calculate the normal
+  float const t = dotProduct(vertex[0] - ray.origin, normal) / cosine;
 
-  // (Optional for now) Calculate the surface position
+  if (t < EPSILON || ray.length < t)
+    return false;
+
+  Vector3d const p = ray.origin + t * ray.direction;
+  // end ray-plane intersection ----------------------------
+
+  float const fullArea = triangleArea(vertex[0], vertex[1], vertex[2]);
+  float const a = triangleArea(p, vertex[0], vertex[1], normal) / fullArea;
+  float const b = triangleArea(p, vertex[2], vertex[0], normal) / fullArea;
+
+  if ((a < 0.0f) || (a > 1.0f) || (b < 0.0f) || (a + b > 1.0f))
+    return false;
+
+  // Set the surface position (barycentric coordinates) and tangent Vector
+  ray.surface = a * this->surface[1] + b * this->surface[2] + (1 - a - b) * this->surface[0];
 
   // Set the new length and the current primitive
+  ray.length = t;
+  ray.primitive = this;
 
-  return false;
+  // True, because the primitive was hit
+  return true;
+}
+
+bool Triangle::intersect(Ray &ray) const {
+  // We use the Möller–Trumbore intersection algorithm
+
+  // Determine two neighboring edge vectors
+  Vector3d const edge1 = this->vertex[1] - this->vertex[0];
+  Vector3d const edge2 = this->vertex[2] - this->vertex[0];
+
+  // Begin calculating determinant
+  Vector3d const pVec = crossProduct(ray.direction, edge2);
+
+  // Make sure the ray is not parallel to the triangle
+  float const det = dotProduct(edge1, pVec);
+  if (fabs(det) < EPSILON)
+    return false;
+  float const inv_det = 1.0f / det;
+
+  // Calculate u and test bound
+  Vector3d const tVec = ray.origin - this->vertex[0];
+  float const u = dotProduct(tVec, pVec) * inv_det;
+  // Test whether the intersection lies outside the triangle
+  if (0.0f > u || u > 1.0f)
+    return false;
+
+  // Calculate v and test bound
+  Vector3d const qVec = crossProduct(tVec, edge1);
+  float const v = dotProduct(ray.direction, qVec) * inv_det;
+  // Test whether the intersection lies outside the triangle
+  if (0.0f > v || u + v > 1.0f)
+    return false;
+
+  // Test whether this is the foremost primitive in front of the camera
+  float const t = dotProduct(edge2, qVec) * inv_det;
+  if (t < EPSILON || ray.length < t)
+    return false;
+
+  // Calculate the normal
+  // IMPLEMENT ME
+
+  // Calculate the surface position
+  ray.surface = u * this->surface[1] + v * this->surface[2] + (1 - u - v) * this->surface[0];
+
+  // Set the new length and the current primitive
+  ray.length = t;
+  ray.primitive = this;
+
+  // True, because the primitive was hit
+  return true;
 }
 
 // Bounding box ////////////////////////////////////////////////////////////////
