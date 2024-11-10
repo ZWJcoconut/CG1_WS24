@@ -35,6 +35,9 @@ endif()
 add_executable(tracey_ex1 ex1.cpp)
 target_link_libraries(tracey_ex1 tracey)
 
+add_executable(tracey_ex2 ex2.cpp)
+target_link_libraries(tracey_ex2 tracey)
+
 
 
 
