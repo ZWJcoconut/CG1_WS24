@@ -28,7 +28,7 @@ bool InfinitePlane::intersect(Ray &ray) const {
 
   // Set the normal
   // IMPLEMENT ME
-
+  ray.normal = this->normal;
   // Set the new length and the current primitive
   ray.length = t;
   ray.primitive = this;

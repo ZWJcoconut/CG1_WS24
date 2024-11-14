@@ -37,6 +37,7 @@ bool Sphere::intersect(Ray &ray) const {
 
   // Calculate the normal
   // IMPLEMENT ME
+  ray.normal = normalized(ray.origin + ray.direction * t - this->center);
 
   // Calculate the surface position and tangent vector
   float const phi = std::acos(ray.normal.y);

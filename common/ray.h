@@ -23,11 +23,14 @@ struct Ray {
   Vector3d bitangent;
 
   // Constructor
-  Ray(Vector3d const &origin = Vector3d(0, 0, 0), Vector3d const &direction = Vector3d(0, 0, 1)) : origin(origin), direction(normalized(direction)) {
+  Ray(Vector3d const &origin = Vector3d(0, 0, 0), Vector3d const &direction = Vector3d(0, 0, 1)) 
+      : origin(origin), direction(normalized(direction)) {
     ++rayCount;
   }
 
+  // Getter and setter for remaining bounces
   inline int getRemainingBounces() const { return remainingBounces; }
+  inline void setRemainingBounces(int bounces) { remainingBounces = bounces; }
 
   static inline void resetRayCount() { rayCount = 0; }
   static inline int getRayCount() { return rayCount; }

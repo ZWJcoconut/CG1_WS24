@@ -18,7 +18,7 @@
 int main() {
   // Let's create a simple cornell box scene...
   SimpleScene scene;
-  scene.setEnvironmentMap(std::make_shared<Texture>("data/lion_env.png"));
+  scene.setEnvironmentMap(std::make_shared<Texture>("../data/lion_env.png"));
 
   auto mirror = std::make_shared<MirrorShader>();
   auto glass = std::make_shared<RefractionShader>(1.31f, 1.0f);

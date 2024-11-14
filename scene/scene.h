@@ -23,7 +23,9 @@ public:
   // Get
   std::vector<std::shared_ptr<Light>> const &lights() const { return this->lights_; }
   std::vector<std::shared_ptr<Primitive>> const &primitives() const { return this->primitives_; }
-
+ 
+  // Getter method for backgroundColor 
+  Color getBackgroundColor() const { return backgroundColor; }
   // Set
   void setBackgroundColor(Color const &color) { this->backgroundColor = color; }
   void setEnvironmentMap(std::shared_ptr<Texture> const &map) { this->environmentMap = map; }

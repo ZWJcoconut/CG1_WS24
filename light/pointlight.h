@@ -11,6 +11,9 @@ public:
   // Set
   void setPosition(Vector3d const &position) { this->position = position; }
 
+  // Get Position
+  Vector3d getPosition() const { return position; }  
+
   // Light functions
   Illumination illuminate(Scene const &scene, Ray const &ray) const override;
 
