@@ -38,6 +38,22 @@ target_link_libraries(tracey_ex1 tracey)
 add_executable(tracey_ex2 ex2.cpp)
 target_link_libraries(tracey_ex2 tracey)
 
+add_executable(tracey_ex3_1 ex3.cpp)
+target_link_libraries(tracey_ex3_1 tracey)
+target_compile_definitions(tracey_ex3_1 PUBLIC SITUATION=1)
+add_executable(tracey_ex3_2 ex3.cpp)
+target_link_libraries(tracey_ex3_2 tracey)
+target_compile_definitions(tracey_ex3_2 PUBLIC SITUATION=2)
+if("${CMAKE_CURRENT_LIST_DIR}/light/ambientlight.cpp" IN_LIST light_src)
+    add_definitions(-DAMBIENTLIGHT_FOUND)
+endif()
+if("${CMAKE_CURRENT_LIST_DIR}/light/spotlight.cpp" IN_LIST light_src)
+    add_definitions(-DSPOTLIGHT_FOUND)
+endif()
+if("${CMAKE_CURRENT_LIST_DIR}/primitive/objmodel.cpp" IN_LIST primitive_src)
+    add_definitions(-DOBJMODEL_FOUND)
+endif()
+
 
 
 

@@ -29,6 +29,24 @@ void Scene::add(const std::shared_ptr<Primitive> &primitive) {
   this->primitives_.push_back(primitive);
 }
 
+void Scene::addObj(char const *fileName, Vector3d const &scale, Vector3d const &translation,
+                   const std::shared_ptr<Shader> &shader, bool flipU, bool flipV) {
+  std::vector<std::shared_ptr<Primitive>> triangles = loadObj(fileName, scale, translation, shader, flipU, flipV);
+  this->primitives_.insert(this->primitives_.end(), std::make_move_iterator(triangles.begin()),
+                           std::make_move_iterator(triangles.end()));
+}
+
+std::vector<std::shared_ptr<Primitive>> Scene::loadObj(char const *fileName, Vector3d const &scale,
+                                                       Vector3d const &translation,
+                                                       const std::shared_ptr<Shader> &shader, bool flipU, bool flipV) {
+  std::vector<std::shared_ptr<Primitive>> faces;
+  std::vector<std::array<int, 3>> indices;
+
+  // IMPLEMENT ME
+
+  return faces;
+}
+
 Color Scene::traceRay(Ray &ray) const {
   if (this->findIntersection(ray) && ray.remainingBounces-- > 0) {
     // If the ray has hit an object, call the shader ...
