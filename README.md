@@ -11,7 +11,7 @@ Angepasst von https://medium.com/@topspinj/how-to-git-rebase-into-a-forked-repo-
 
 Das Musterlösungs-Repository als remote mit Namen _upstream_ (oder ähnlich) hinzufügen:
 
-`git remote add upstream gogs@git.cg.cs.tu-bs.de:CG1_WS2122/Base.git` 
+`git remote add upstream gogs@git.cg.cs.tu-bs.de:CG1_WS2425/Base.git` 
 
 Alle Branches von _upstream_ und deren Änderungen herunterladen
 

@@ -100,7 +100,7 @@ bool Triangle::intersect(Ray &ray) const {
     return false;
 
   // Calculate the normal
-  // IMPLEMENT ME
+  ray.normal = normalized(crossProduct(edge1, edge2));
 
   // Calculate the surface position
   ray.surface = u * this->surface[1] + v * this->surface[2] + (1 - u - v) * this->surface[0];

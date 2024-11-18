@@ -5,8 +5,11 @@
 SimpleShadowShader::SimpleShadowShader(Color const &objectColor) : objectColor(objectColor) {}
 
 Color SimpleShadowShader::shade(Scene const &scene, Ray const &ray) const {
-  // IMPLEMENT ME
-  // loop over all light sources to check for visibility and multiply "light
-  // strength" with this objects albedo (color)
-  return Color(0, 1, 0);
+  Color fragmentColor;
+
+  // Accumulate the light over all light sources
+  for (const auto &light : scene.lights())
+    fragmentColor += light->illuminate(scene, ray).color;
+
+  return fragmentColor * this->objectColor;
 }

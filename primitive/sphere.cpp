@@ -36,7 +36,8 @@ bool Sphere::intersect(Ray &ray) const {
     return false;
 
   // Calculate the normal
-  // IMPLEMENT ME
+  Vector3d const hitPoint = ray.origin + t * ray.direction;
+  ray.normal = normalized(hitPoint - this->center);
 
   // Calculate the surface position and tangent vector
   float const phi = std::acos(ray.normal.y);
