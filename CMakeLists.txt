@@ -54,6 +54,9 @@ if("${CMAKE_CURRENT_LIST_DIR}/primitive/objmodel.cpp" IN_LIST primitive_src)
     add_definitions(-DOBJMODEL_FOUND)
 endif()
 
+add_executable(tracey_ex4 ex4.cpp)
+target_link_libraries(tracey_ex4 tracey)
+
 
 
 

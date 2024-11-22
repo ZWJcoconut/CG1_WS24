@@ -100,6 +100,7 @@ bool Triangle::intersect(Ray &ray) const {
     return false;
 
   // Calculate the normal
+  // IMPLEMENT smooth triangles, if available
   ray.normal = normalized(crossProduct(edge1, edge2));
 
   // Calculate the surface position
