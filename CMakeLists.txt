@@ -58,6 +58,9 @@ add_executable(tracey_ex4 ex4.cpp)
 target_link_libraries(tracey_ex4 tracey)
 
 
+add_executable(tracey_ex5 ex5.cpp)
+target_link_libraries(tracey_ex5 tracey)
+
 
 
 
