@@ -100,8 +100,13 @@ bool Triangle::intersect(Ray &ray) const {
     return false;
 
   // Calculate the normal
-  // IMPLEMENT smooth triangles, if available
-  ray.normal = normalized(crossProduct(edge1, edge2));
+  if (length(this->normal[0]) * length(this->normal[1]) * length(this->normal[2]) > EPSILON)
+    ray.normal = normalized(u * this->normal[1] + v * this->normal[2] + (1 - u - v) * this->normal[0]);
+  else
+    ray.normal = normalized(crossProduct(edge1, edge2));
+  // calculate the tangent and bitangent vectors as well
+  ray.tangent = normalized(u * this->tangent[1] + v * this->tangent[2] + (1 - u - v) * this->tangent[0]);
+  ray.bitangent = normalized(u * this->bitangent[1] + v * this->bitangent[2] + (1 - u - v) * this->bitangent[0]);
 
   // Calculate the surface position
   ray.surface = u * this->surface[1] + v * this->surface[2] + (1 - u - v) * this->surface[0];

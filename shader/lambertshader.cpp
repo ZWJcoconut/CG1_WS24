@@ -7,7 +7,13 @@ LambertShader::LambertShader(Color const &diffuseColor) : diffuseColor(diffuseCo
 Color LambertShader::shade(Scene const &scene, Ray const &ray) const {
   Color fragmentColor;
 
-  // IMPLEMENT ME
+  // Accumulate the light over all light sources
+  for (const auto &light : scene.lights()) {
+    Light::Illumination const illum = light->illuminate(scene, ray);
+    // Diffuse term
+    Color const diffuse = this->diffuseColor * std::max(dotProduct(-illum.direction, ray.normal), 0.0f);
+    fragmentColor += diffuse * illum.color;
+  }
 
   return fragmentColor;
 }
